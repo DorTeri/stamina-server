@@ -55,6 +55,7 @@ def delete_user(user_id):
 @user_bp.route("/users/login", methods=["POST"])
 def login():
     logging.info("Trying to login")
+    print("logging in")
     auth = request.get_json()
     if not auth or 'email' not in auth or 'password' not in auth:
         return jsonify({'message': 'Invalid credentials'}), 401
