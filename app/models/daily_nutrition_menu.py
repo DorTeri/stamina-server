@@ -8,13 +8,13 @@ class DailyNutritionMenu:
         self.menu = menu
 
     def save(self):
-        nutrition_menu = {
+        daily_nutrition_menu = {
             "title": self.title,
             "user_id": self.user_id,
             "menu": self.menu
         }
 
-        db.dailyNutritionMenus.insert_one(nutrition_menu)
+        db.dailyNutritionMenus.insert_one(daily_nutrition_menu)
 
     @staticmethod
     def find_by_user_id(user_id):
