@@ -11,7 +11,6 @@ __pycache__/
 .idea/
 
 # Ignore dependency management files
-requirements.txt
 pipfile.lock
 poetry.lock
 
