@@ -15,6 +15,11 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %
 client = MongoClient(app.config['MONGO_URI'])
 db = client[app.config['MONGO_DB']]
 
+@app.route("/")
+def hello():
+    return 'Hello world!'
+    
+
 from app.routes.user_routes import user_bp
 from app.routes.excercise_routes import exercise_bp
 from app.routes.ingredient_routes import ingredient_bp
