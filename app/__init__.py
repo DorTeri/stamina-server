@@ -17,6 +17,7 @@ db = client[app.config['MONGO_DB']]
 
 @app.route("/")
 def hello():
+    logging.info('testtt')
     return 'Hello world!'
     
 
