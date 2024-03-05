@@ -7,6 +7,7 @@ exercise_bp = Blueprint('exercise_bp', __name__)
 
 @exercise_bp.route("/exercises", methods=["GET"])
 def get_all_exercises():
+    logging.info("inside exercises")
     exercises = db.exercises.find()
     exercises_list = list(exercises)  
     
