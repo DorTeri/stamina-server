@@ -41,7 +41,12 @@ class Ingredient:
     @staticmethod
     def update(ingredient_id, update_data):
         result = db.ingredients.update_one({"_id": ObjectId(ingredient_id)}, {"$set": update_data})
-        return result.modified_count > 0
+        if result.modified_count == 1:
+            updated_ingredient = db.ingredients.find_one({"_id": ObjectId(ingredient_id)})
+            updated_ingredient['_id'] = str(updated_ingredient['_id'])
+            return updated_ingredient
+        else:
+            return None
 
     @staticmethod
     def delete(ingredient_id):
