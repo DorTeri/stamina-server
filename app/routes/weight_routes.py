@@ -17,8 +17,8 @@ def get_weights_by_user_id(user_id):
 def create_weight():
     data = request.json
     weight = Weight(**data)
-    weight.save()
-    return jsonify(weight.__dict__), 201
+    saved_weight = weight.save()
+    return jsonify(saved_weight), 201
 
 @weight_bp.route("/weights/<weight_id>", methods=["PUT"])
 def update_weight(weight_id):
