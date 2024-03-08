@@ -18,7 +18,9 @@ class Weight:
             "imgUrl": self.imgUrl
         }
 
-        db.weights.insert_one(weight)
+        result = db.weights.insert_one(weight)
+        weight['_id'] = str(result.inserted_id)  # Convert ObjectId to string
+        return weight
 
     @staticmethod
     def find_by_user_id(user_id):
