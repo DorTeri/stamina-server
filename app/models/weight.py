@@ -4,16 +4,18 @@ import pymongo
 import logging
 
 class Weight:
-    def __init__(self, user_id, weight, createdAt):
+    def __init__(self, user_id, weight, createdAt, imgUrl):
         self.user_id = user_id
         self.weight = weight
         self.createdAt = createdAt
+        self.imgUrl = imgUrl
 
     def save(self):
         weight = {
             "user_id": self.user_id,
             "weight": self.weight,
-            "createdAt": self.createdAt
+            "createdAt": self.createdAt,
+            "imgUrl": self.imgUrl
         }
 
         db.weights.insert_one(weight)
