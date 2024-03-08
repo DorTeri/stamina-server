@@ -2,16 +2,20 @@ from app import db
 from bson.objectid import ObjectId
 
 class DailyNutritionMenu:
-    def __init__(self, title, user_id, menu):
+    def __init__(self, title, user_id, menu, proteinsEaten, caloriesEaten):
         self.title = title
         self.user_id = user_id
         self.menu = menu
+        self.proteinsEaten = proteinsEaten
+        self.caloriesEaten = caloriesEaten
 
     def save(self):
         daily_nutrition_menu = {
             "title": self.title,
             "user_id": self.user_id,
-            "menu": self.menu
+            "menu": self.menu,
+            "proteinsEaten": self.proteinsEaten,
+            "caloriesEaten": self.caloriesEaten
         }
 
         db.dailyNutritionMenus.insert_one(daily_nutrition_menu)
