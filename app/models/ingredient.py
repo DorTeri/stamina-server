@@ -3,7 +3,7 @@ from bson.objectid import ObjectId
 
 class Ingredient:
     def __init__(self, name, amount, code, company,
-                  measureUnits, category, group, subCategory):
+                  measureUnits, category, group, subCategory, servingType):
         self.name = name
         self.amount = amount
         self.code = code
@@ -12,6 +12,7 @@ class Ingredient:
         self.subCategory = subCategory
         self.company = company
         self.group = group
+        self.servingType = servingType
         
         
     def save(self):
@@ -21,8 +22,10 @@ class Ingredient:
             "code": self.code,
             "measureUnits": self.measureUnits,
             "group": self.group,
+            "company": self.company,
             "category": self.category,
-            "subCategory": self.subCategory
+            "subCategory": self.subCategory,
+            "servingType": self.servingType
         }
         db.ingredients.insert_one(ingredient_data)
 
