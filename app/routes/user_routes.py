@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.models.user import User
+from app.models.user_data import UserData
 from app import db
 from app import app
 from flask_bcrypt import Bcrypt
@@ -14,7 +14,7 @@ user_bp = Blueprint('user_bp', __name__)
 
 @user_bp.route("/users/<user_id>", methods=["GET"])
 def get_user(user_id):
-    user = User.find_by_user_id(user_id)
+    user = UserData.find_by_user_id(user_id)
     if user:
         return jsonify(user), 200
     else:
@@ -25,11 +25,11 @@ def create_user():
     data = request.json
     password = bcrypt.generate_password_hash(data["password"]).decode('utf-8')
     data["password"] = password
-    existing_user = User.find_by_user_email(data["email"])
+    existing_user = UserData.find_by_user_email(data["email"])
     if existing_user:
         return jsonify({'message': 'User with the same email already exists'}), 400
     
-    user = User(**data)
+    user = UserData(**data)
     savedUser = user.save()
 
     # Return the entire user object including the _id
@@ -38,7 +38,7 @@ def create_user():
 @user_bp.route("/users/<user_id>", methods=["PUT"])
 def update_user(user_id):
     data = request.json
-    updated_user = User.update_user(user_id, data)
+    updated_user = UserData.update_user(user_id, data)
     if updated_user:
         return jsonify(updated_user), 200
     else:
@@ -46,7 +46,7 @@ def update_user(user_id):
     
 @user_bp.route("/users/<user_id>", methods=["DELETE"])
 def delete_user(user_id):
-    deleted_user = User.delete_user(user_id)
+    deleted_user = UserData.delete_user(user_id)
     if deleted_user:
         return jsonify({"message": "User deleted successfully"}), 200
     else:
@@ -59,7 +59,7 @@ def login():
     auth = request.get_json()
     if not auth or 'email' not in auth or 'password' not in auth:
         return jsonify({'message': 'Invalid credentials'}), 401
-    user = User.find_by_user_email(auth['email'])
+    user = UserData.find_by_user_email(auth['email'])
     if not user or not bcrypt.check_password_hash(user['password'], auth['password']):
         return jsonify({'message': 'Invalid credentials'}), 401
     
@@ -87,7 +87,7 @@ def token_required(f):
             # Extract user ID from the decoded token
             user_id = decoded_token['user_id']
             # Dummy user data retrieval (replace this with your actual user data retrieval logic)
-            user = User.find_by_user_id(user_id)
+            user = UserData.find_by_user_id(user_id)
             # Here we are simply returning dummy_user_data
             return f(user, *args, **kwargs)
         except jwt.ExpiredSignatureError:
