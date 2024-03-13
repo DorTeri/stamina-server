@@ -18,7 +18,7 @@ def get_user(user_id):
     if user:
         return jsonify(user), 200
     else:
-        return jsonify({"error": "User not found"}), 404
+        return jsonify(user), 200
 
 @user_bp.route("/users/register", methods=["POST"])
 def create_user():
