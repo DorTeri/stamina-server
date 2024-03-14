@@ -22,13 +22,7 @@ def get_user(user_id):
 
 @user_bp.route("/users/register", methods=["POST"])
 def create_user():
-    data = request.json
-    password = bcrypt.generate_password_hash(data["password"]).decode('utf-8')
-    data["password"] = password
-    existing_user = UserData.find_by_user_email(data["email"])
-    if existing_user:
-        return jsonify({'message': 'User with the same email already exists'}), 400
-    
+    data = request.json    
     user = UserData(**data)
     savedUser = user.save()
 
