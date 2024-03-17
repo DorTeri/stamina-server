@@ -2,10 +2,13 @@ from flask import Blueprint, request, jsonify
 from app.models.workout_program import WorkoutProgram
 from app import db
 import logging
+from ..middleware.token_decode import verify_firebase_token
+
 
 workout_program_bp = Blueprint('workout_program_bp', __name__)
 
-@workout_program_bp.route("/workout_programs/<user_id>", methods=["GET"])
+@workout_program_bp.route("/workout_programs", methods=["GET"])
+@verify_firebase_token
 def get_workout_programs(user_id):
     workout_program = WorkoutProgram.find_by_user_id(user_id)
     if workout_program:
