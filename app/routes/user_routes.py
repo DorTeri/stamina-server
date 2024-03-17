@@ -7,18 +7,29 @@ import jwt
 import datetime
 from functools import wraps
 import logging
+from ..middleware.token_decode import verify_firebase_token
 
 bcrypt = Bcrypt(app)
 
 user_bp = Blueprint('user_bp', __name__)
 
 @user_bp.route("/users/<user_id>", methods=["GET"])
+@verify_firebase_token
 def get_user(user_id):
-    user = UserData.find_by_user_id(user_id)
-    if user:
-        return jsonify(user), 200
-    else:
-        return jsonify(user), 200
+    
+    try:
+        # Query MongoDB to retrieve user data
+        user_data = db.users.find_one({'_id': user_id})
+
+        if user_data:
+            # If user exists, return user data
+            return jsonify(user_data), 200
+        else:
+            return jsonify({'message': 'User not found'}), 404
+
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+
 
 @user_bp.route("/users/register", methods=["POST"])
 def create_user():
