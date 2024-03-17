@@ -16,3 +16,4 @@ poetry.lock
 
 # Ignore log files
 *.log
+firebase_config.py

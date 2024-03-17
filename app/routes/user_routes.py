@@ -13,7 +13,7 @@ bcrypt = Bcrypt(app)
 
 user_bp = Blueprint('user_bp', __name__)
 
-@user_bp.route("/users/<user_id>", methods=["GET"])
+@user_bp.route("/users", methods=["GET"])
 @verify_firebase_token
 def get_user(user_id):
     
