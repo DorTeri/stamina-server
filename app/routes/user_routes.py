@@ -8,6 +8,9 @@ import datetime
 from functools import wraps
 import logging
 from ..middleware.token_decode import verify_firebase_token
+from app.models.workout_program import WorkoutProgram
+from app.models.nutrition_menu import NutritionMenu
+
 
 bcrypt = Bcrypt(app)
 
@@ -25,19 +28,32 @@ def get_user(user_id):
             # If user exists, return user data
             return jsonify(user_data), 200
         else:
-            return jsonify({'message': 'User not found'}), 404
+            return jsonify(None), 202
 
     except Exception as e:
         return jsonify({'message': str(e)}), 500
 
 
 @user_bp.route("/users/register", methods=["POST"])
-def create_user():
-    data = request.json    
-    user = UserData(**data)
+@verify_firebase_token
+def create_user(user_id):
+    userData = request.json.get("userData")   
+    userData["user_id"] = user_id 
+    user = UserData(**userData)
     savedUser = user.save()
+    
+    # Saving workout program
+    workout_program_data = request.json.get("workoutProgram")
+    workout_program_data["user_id"] = user_id
+    workout_program = WorkoutProgram(**workout_program_data)
+    workout_program.save()
+    
+    # Saving nutrition menu
+    nutrition_menu_data = request.json.get("nutritionMenu")
+    nutrition_menu_data["user_id"] = user_id
+    nutrition_menu = NutritionMenu(**nutrition_menu_data)
+    nutrition_menu.save()
 
-    # Return the entire user object including the _id
     return jsonify(savedUser), 201
 
 @user_bp.route("/users/<user_id>", methods=["PUT"])
