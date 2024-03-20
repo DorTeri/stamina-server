@@ -57,6 +57,8 @@ def create_user(user_id):
     
     daily_nutrition_menu_data = request.json.get("nutritionMenu")
     daily_nutrition_menu_data["user_id"] = user_id
+    daily_nutrition_menu_data["proteinsEaten"] = 0
+    daily_nutrition_menu_data["caloriesEaten"] = 0
     daily_nutrition_menu = DailyNutritionMenu(**daily_nutrition_menu_data)
     daily_nutrition_menu.save()
 
