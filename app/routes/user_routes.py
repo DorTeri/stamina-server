@@ -53,8 +53,9 @@ def create_user(user_id):
     nutrition_menu_data = request.json.get("nutritionMenu")
     nutrition_menu_data["user_id"] = user_id
     nutrition_menu = NutritionMenu(**nutrition_menu_data)
-    DailyNutritionMenu(**nutrition_menu_data)
+    daily_nutrition_menu = DailyNutritionMenu(**nutrition_menu_data)
     nutrition_menu.save()
+    daily_nutrition_menu.save()
 
     return jsonify(savedUser), 201
 
