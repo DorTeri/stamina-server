@@ -8,11 +8,11 @@ daily_nutrition_menu_bp = Blueprint('daily_nutrition_menu_bp', __name__)
 @daily_nutrition_menu_bp.route("/daily_nutrition_menus", methods=["GET"])
 @verify_firebase_token
 def get_nutrition_menus(user_id):
-    nutrition_menu = DailyNutritionMenu.find_by_user_id(user_id)
-    if nutrition_menu:
-        return jsonify(nutrition_menu), 200
+    daily_nutrition_menu = DailyNutritionMenu.find_by_user_id(user_id)
+    if daily_nutrition_menu:
+        return jsonify(daily_nutrition_menu), 200
     else:
-        return jsonify({"error": "Nutrition menus not found"}), 404
+        return jsonify({"error": "daily nutrition menu not found"}), 404
 
 @daily_nutrition_menu_bp.route("/daily_nutrition_menus", methods=["POST"])
 def create_nutrition_menu():

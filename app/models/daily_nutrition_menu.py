@@ -22,7 +22,9 @@ class DailyNutritionMenu:
 
     @staticmethod
     def find_by_user_id(user_id):
-        return list(db.dailyNutritionMenus.find({"user_id": user_id}))
+        daily_nutrition_menu = db.dailyNutritionMenus.find_one({"user_id": user_id})
+        daily_nutrition_menu['_id'] = str(daily_nutrition_menu['_id'])
+        return daily_nutrition_menu
 
     @staticmethod
     def delete(nutrition_id):
