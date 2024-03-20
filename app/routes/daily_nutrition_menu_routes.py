@@ -1,10 +1,12 @@
 from flask import Blueprint, request, jsonify
 from app.models.daily_nutrition_menu import DailyNutritionMenu
 from app import db
+from ..middleware.token_decode import verify_firebase_token
 
 daily_nutrition_menu_bp = Blueprint('daily_nutrition_menu_bp', __name__)
 
-@daily_nutrition_menu_bp.route("/daily_nutrition_menus/<user_id>", methods=["GET"])
+@daily_nutrition_menu_bp.route("/daily_nutrition_menus", methods=["GET"])
+@verify_firebase_token
 def get_nutrition_menus(user_id):
     nutrition_menu = DailyNutritionMenu.find_by_user_id(user_id)
     if nutrition_menu:
