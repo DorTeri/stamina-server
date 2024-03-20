@@ -10,6 +10,7 @@ import logging
 from ..middleware.token_decode import verify_firebase_token
 from app.models.workout_program import WorkoutProgram
 from app.models.nutrition_menu import NutritionMenu
+from app.models.daily_nutrition_menu import DailyNutritionMenu
 
 
 bcrypt = Bcrypt(app)
@@ -52,6 +53,7 @@ def create_user(user_id):
     nutrition_menu_data = request.json.get("nutritionMenu")
     nutrition_menu_data["user_id"] = user_id
     nutrition_menu = NutritionMenu(**nutrition_menu_data)
+    DailyNutritionMenu(**nutrition_menu_data)
     nutrition_menu.save()
 
     return jsonify(savedUser), 201
