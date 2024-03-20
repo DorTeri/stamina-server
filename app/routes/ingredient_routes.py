@@ -9,6 +9,18 @@ def get_all_ingredients():
     ingredients = db.ingredients.find()
     return jsonify([ingredient for ingredient in ingredients]), 200
 
+@ingredient_bp.route("/ingredientsids", methods=["GET"])
+def get_all_ingredients_by_ids():
+    ingredients_ids = request.args.getlist("ids[]")
+    
+    if not ingredients_ids:
+        return jsonify({"error": "No exercise IDs provided in the request."}), 400
+    
+    ingredients = Ingredient.find_by_ids(ingredients_ids)
+    ingredients_serializable = [ingredient for ingredient in ingredients]
+
+    return jsonify(ingredients_serializable), 200
+
 @ingredient_bp.route("/ingredients/<ingredient_id>", methods=["GET"])
 def get_ingredient(ingredient_id):
     ingredient = Ingredient.find_by_id(ingredient_id)

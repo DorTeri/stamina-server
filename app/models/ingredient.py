@@ -37,6 +37,16 @@ class Ingredient:
         return ingredient
     
     @staticmethod
+    def find_by_ids(ingredients_ids):
+        object_ids = [ObjectId(ingredient_id) for ingredient_id in ingredients_ids]
+
+        ingredients = list(db.ingredients.find({"_id": {"$in": object_ids}}))
+    
+        for ingredient in ingredients:
+            ingredient['_id'] = str(ingredient['_id'])
+        return ingredients
+    
+    @staticmethod
     def find_by_code(ingredient_code):
         ingredient = db.ingredients.find_one({"code": ingredient_code})
         if ingredient:
