@@ -25,6 +25,12 @@ class DailyNutritionMenu:
         daily_nutrition_menu = db.dailyNutritionMenus.find_one({"user_id": user_id})
         daily_nutrition_menu['_id'] = str(daily_nutrition_menu['_id'])
         return daily_nutrition_menu
+    
+    @staticmethod
+    def find_by_nutrition_id(nutrition_id):
+        daily_nutrition_menu = db.dailyNutritionMenus.find_one({"_id": ObjectId(nutrition_id)})
+        daily_nutrition_menu['_id'] = str(daily_nutrition_menu['_id'])
+        return daily_nutrition_menu
 
     @staticmethod
     def delete(nutrition_id):
@@ -36,8 +42,10 @@ class DailyNutritionMenu:
 
     @staticmethod
     def update_by_nutrition_id(nutrition_id, new_data):
-        result = db.dailyNutritionMenus.update_one({"_id": nutrition_id}, {"$set": new_data})
+        result = db.dailyNutritionMenus.update_one({"_id": ObjectId(nutrition_id)}, {"$set": new_data})
         if result.modified_count == 1:
-            return True  
+            updated_nutrition_menu = db.dailyNutritionMenus.find_one({"_id": ObjectId(nutrition_id)})
+            updated_nutrition_menu['_id'] = str(updated_nutrition_menu['_id'])
+            return updated_nutrition_menu
         else:
-            return False
+            return None

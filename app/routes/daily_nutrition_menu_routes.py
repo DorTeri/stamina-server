@@ -22,12 +22,17 @@ def create_nutrition_menu():
     return jsonify(nutrition_menu.__dict__), 201
 
 @daily_nutrition_menu_bp.route("/daily_nutrition_menus/<nutrition_id>", methods=["PUT"])
-def update_nutrition_menu(nutrition_id):
+@verify_firebase_token
+def update_nutrition_menu(user_id, nutrition_id):
     data = request.json
-    if DailyNutritionMenu.update_by_nutrition_id(nutrition_id, data):
-        return jsonify({"message": "Nutrition menu updated successfully"}), 200
+    if(user_id == data["user_id"]):
+        updated_nutrition_menu = DailyNutritionMenu.update_by_nutrition_id(nutrition_id, data)
+        if updated_nutrition_menu:
+            return jsonify(updated_nutrition_menu), 200
+        else:
+            return jsonify({"error": "Nutrition menu not found"}), 404
     else:
-        return jsonify({"error": "Nutrition menu not found"}), 404
+        return jsonify({"error": "Not Authorized"}), 404
 
 @daily_nutrition_menu_bp.route("/daily_nutrition_menus/<nutrition_id>", methods=["DELETE"])
 def delete_nutrition_menu(nutrition_id):
