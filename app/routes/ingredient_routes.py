@@ -58,7 +58,17 @@ def delete_ingredient(ingredient_id):
         return jsonify({"message": "Ingredient deleted successfully"}), 200
     else:
         return jsonify({"error": "Ingredient not found"}), 404
+ 
+
+@ingredient_bp.route("/ingredients/categories", methods=["GET"])
+def get_all_categories():
+    categories = Ingredient.get_all_categories() 
+    if categories:
+        return jsonify(categories), 200
+    else:
+        return jsonify({"error": "Categories not found"}), 404
     
+        
 @ingredient_bp.route("/ingredients/category/<category>", methods=["GET"])
 def get_ingredient_by_category(category):
     ingredient = Ingredient.find_by_category(category) 

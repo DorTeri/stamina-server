@@ -80,6 +80,12 @@ class Ingredient:
         return ingredients_list
     
     @staticmethod
+    def get_all_categories():
+        categories = db.ingredients.distinct('category')
+        return categories
+    
+    
+    @staticmethod
     def find_by_sub_category(ingredient_sub_category):
         ingredients_cursor = db.ingredients.find({'subCategory': ingredient_sub_category})
         ingredients_list = []
@@ -89,3 +95,27 @@ class Ingredient:
             ingredients_list.append(ingredient)
 
         return ingredients_list
+    
+    
+    @staticmethod
+    def get_all_categories():
+        categories = db.ingredients.distinct('category')
+        return categories
+    
+    @staticmethod
+    def get_sub_categories_by_category(category):
+    # Find all documents in the 'ingredients' collection with the specified category
+        ingredients_cursor = db.ingredients.find({'category': category})
+
+    # Create a set to store unique sub-categories
+        sub_categories_set = set()
+
+    # Iterate over the documents and collect unique sub-categories
+        for ingredient in ingredients_cursor:
+            sub_category = ingredient.get('sub_category')
+            if sub_category:
+                sub_categories_set.add(sub_category)
+
+    # Convert the set to a list and return
+        sub_categories_list = list(sub_categories_set)
+        return sub_categories_list
