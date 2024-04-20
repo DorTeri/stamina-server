@@ -42,7 +42,8 @@ class DailyNutritionMenu:
 
     @staticmethod
     def update_by_nutrition_id(nutrition_id, new_data):
-        result = db.dailyNutritionMenus.update_one({"_id": ObjectId(nutrition_id)}, {"$set": new_data})
+        new_data_without_id = {key: value for key, value in new_data.items() if key != '_id'}
+        result = db.dailyNutritionMenus.update_one({"_id": ObjectId(nutrition_id)}, {"$set": new_data_without_id})
         if result.modified_count == 1:
             updated_nutrition_menu = db.dailyNutritionMenus.find_one({"_id": ObjectId(nutrition_id)})
             updated_nutrition_menu['_id'] = str(updated_nutrition_menu['_id'])

@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from app.models.daily_nutrition_menu import DailyNutritionMenu
 from app import db
 from ..middleware.token_decode import verify_firebase_token
+import logging
 
 daily_nutrition_menu_bp = Blueprint('daily_nutrition_menu_bp', __name__)
 
@@ -24,6 +25,8 @@ def create_nutrition_menu():
 @daily_nutrition_menu_bp.route("/daily_nutrition_menus/<nutrition_id>", methods=["PUT"])
 @verify_firebase_token
 def update_nutrition_menu(user_id, nutrition_id):
+    logging.info(f"user_iddddddd {user_id}")
+    logging.info(f"nutrition_iddddddd {nutrition_id}")
     data = request.json
     if(user_id == data["user_id"]):
         updated_nutrition_menu = DailyNutritionMenu.update_by_nutrition_id(nutrition_id, data)
