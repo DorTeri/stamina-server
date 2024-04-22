@@ -68,6 +68,14 @@ def get_all_categories():
     else:
         return jsonify({"error": "Categories not found"}), 404
     
+@ingredient_bp.route("/ingredients/sub_categories/<category>", methods=["GET"])
+def get_sub_categories_by_category():
+    sub_categories = Ingredient.get_all_categories() 
+    if sub_categories:
+        return jsonify(sub_categories), 200
+    else:
+        return jsonify({"error": "Sub categories not found"}), 404
+    
         
 @ingredient_bp.route("/ingredients/category/<category>", methods=["GET"])
 def get_ingredient_by_category(category):
