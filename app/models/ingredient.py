@@ -1,5 +1,6 @@
 from app import db
 from bson.objectid import ObjectId
+import logging
 
 class Ingredient:
     def __init__(self, name, amount, code, company,
@@ -106,13 +107,12 @@ class Ingredient:
     def get_sub_categories_by_category(category):
     # Find all documents in the 'ingredients' collection with the specified category
         ingredients_cursor = db.ingredients.find({'category': category})
-
     # Create a set to store unique sub-categories
         sub_categories_set = set()
 
     # Iterate over the documents and collect unique sub-categories
         for ingredient in ingredients_cursor:
-            sub_category = ingredient.get('sub_category')
+            sub_category = ingredient.get('subCategory')
             if sub_category:
                 sub_categories_set.add(sub_category)
 
