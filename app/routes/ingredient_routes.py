@@ -70,7 +70,7 @@ def get_all_categories():
     
 @ingredient_bp.route("/ingredients/sub_categories/<category>", methods=["GET"])
 def get_sub_categories_by_category(category):
-    sub_categories = Ingredient.get_all_categories(category) 
+    sub_categories = Ingredient.get_sub_categories_by_category(category) 
     if sub_categories:
         return jsonify(sub_categories), 200
     else:
