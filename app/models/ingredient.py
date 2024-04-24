@@ -99,6 +99,17 @@ class Ingredient:
 
         return ingredients_list
     
+    @staticmethod
+    def find_by_name(search_text):
+        ingredients_cursor = db.ingredients.find({'$regex': search_text, '$options': 'i'})
+        ingredients_list = []
+
+        for ingredient in ingredients_cursor:
+            ingredient['_id'] = str(ingredient['_id'])
+            ingredients_list.append(ingredient)
+
+        return ingredients_list
+    
     
     @staticmethod
     def get_all_categories():

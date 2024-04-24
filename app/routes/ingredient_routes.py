@@ -94,4 +94,13 @@ def get_ingredient_by_sub_category(sub_category):
         return jsonify(ingredient), 200
     else:
         return jsonify({"error": "Ingredients not found"}), 404
+    
+    
+@ingredient_bp.route("/ingredients/search/<search_text>", methods=["GET"])
+def get_ingredient_by_name(search_text):
+    ingredients = Ingredient.find_by_name(search_text) 
+    if ingredients:
+        return jsonify(ingredients), 200
+    else:
+        return jsonify({"error": "Ingredients not found"}), 404
 
