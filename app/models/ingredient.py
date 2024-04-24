@@ -70,8 +70,12 @@ class Ingredient:
         return result.deleted_count > 0
     
     @staticmethod
-    def find_by_category(ingredient_category):
-        ingredients_cursor = db.ingredients.find({'category': ingredient_category})
+    def find_by_category(ingredient_category, search_text):
+        query = {'category': ingredient_category}
+        if search_text:
+            query['name'] = {'$regex': search_text, '$options': 'i'}
+            
+        ingredients_cursor = db.ingredients.find(query)
         ingredients_list = []
 
         for ingredient in ingredients_cursor:
@@ -79,23 +83,27 @@ class Ingredient:
             ingredients_list.append(ingredient)
 
         return ingredients_list
+    
+    
+    @staticmethod
+    def find_by_sub_category(ingredient_sub_category, search_text):
+        query = {'category': ingredient_sub_category}
+        if search_text:
+            query['name'] = {'$regex': search_text, '$options': 'i'}
+        ingredients_cursor = db.ingredients.find(query)
+        ingredients_list = []
+
+        for ingredient in ingredients_cursor:
+            ingredient['_id'] = str(ingredient['_id'])
+            ingredients_list.append(ingredient)
+
+        return ingredients_list
+    
     
     @staticmethod
     def get_all_categories():
         categories = db.ingredients.distinct('category')
         return categories
-    
-    
-    @staticmethod
-    def find_by_sub_category(ingredient_sub_category):
-        ingredients_cursor = db.ingredients.find({'subCategory': ingredient_sub_category})
-        ingredients_list = []
-
-        for ingredient in ingredients_cursor:
-            ingredient['_id'] = str(ingredient['_id'])
-            ingredients_list.append(ingredient)
-
-        return ingredients_list
     
     
     @staticmethod

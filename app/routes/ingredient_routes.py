@@ -79,7 +79,8 @@ def get_sub_categories_by_category(category):
         
 @ingredient_bp.route("/ingredients/category/<category>", methods=["GET"])
 def get_ingredient_by_category(category):
-    ingredient = Ingredient.find_by_category(category) 
+    search_text = request.args.get('search_text')
+    ingredient = Ingredient.find_by_category(category , search_text) 
     if ingredient:
         return jsonify(ingredient), 200
     else:
@@ -87,8 +88,10 @@ def get_ingredient_by_category(category):
     
 @ingredient_bp.route("/ingredients/subcategory/<sub_category>", methods=["GET"])
 def get_ingredient_by_sub_category(sub_category):
-    ingredient = Ingredient.find_by_sub_category(sub_category) 
+    search_text = request.args.get('search_text')
+    ingredient = Ingredient.find_by_sub_category(sub_category, search_text) 
     if ingredient:
         return jsonify(ingredient), 200
     else:
         return jsonify({"error": "Ingredients not found"}), 404
+
