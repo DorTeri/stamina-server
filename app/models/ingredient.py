@@ -101,7 +101,7 @@ class Ingredient:
     
     @staticmethod
     def find_by_name(search_text):
-        ingredients_cursor = db.ingredients.find({'$regex': search_text, '$options': 'i'})
+        ingredients_cursor = db.ingredients.find({"name": {"$regex": search_text, "$options": "i"}})
         ingredients_list = []
 
         for ingredient in ingredients_cursor:
