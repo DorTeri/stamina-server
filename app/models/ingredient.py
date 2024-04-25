@@ -87,7 +87,7 @@ class Ingredient:
     
     @staticmethod
     def find_by_sub_category(ingredient_sub_category, search_text):
-        query = {'category': ingredient_sub_category}
+        query = {'subCategory': ingredient_sub_category}
         if search_text:
             query['name'] = {'$regex': search_text, '$options': 'i'}
         ingredients_cursor = db.ingredients.find(query)
