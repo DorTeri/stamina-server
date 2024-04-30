@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.models.nutrition_menu import NutritionMenu
+from app.models.daily_nutrition_menu import DailyNutritionMenu
 from app import db
 from ..middleware.token_decode import verify_firebase_token
 
@@ -19,6 +20,9 @@ def create_nutrition_menu():
     data = request.json
     nutrition_menu = NutritionMenu(**data)
     nutrition_menu.save()
+    nutrition_menu['proteinsEaten'] = 0
+    nutrition_menu['caloriesEaten'] = 0
+    DailyNutritionMenu(**data)
     return jsonify(nutrition_menu.__dict__), 201
 
 @nutrition_menu_bp.route("/nutrition_menus/<nutrition_id>", methods=["PUT"])

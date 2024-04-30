@@ -1,17 +1,20 @@
 from app import db
 from bson.objectid import ObjectId
+from datetime import datetime
 
 class NutritionMenu:
     def __init__(self, title, user_id, menu):
         self.title = title
         self.user_id = user_id
         self.menu = menu
+        self.createdAt = datetime.now().date().isoformat()
 
     def save(self):
         nutrition_menu = {
             "title": self.title,
             "user_id": self.user_id,
-            "menu": self.menu
+            "menu": self.menu,
+            "createdAt": self.createdAt
         }
 
         db.nutritionMenus.insert_one(nutrition_menu)

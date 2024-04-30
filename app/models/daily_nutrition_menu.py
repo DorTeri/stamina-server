@@ -1,6 +1,6 @@
 from app import db
 from bson.objectid import ObjectId
-
+from datetime import datetime 
 class DailyNutritionMenu:
     def __init__(self, title, user_id, menu, proteinsEaten, caloriesEaten):
         self.title = title
@@ -8,6 +8,7 @@ class DailyNutritionMenu:
         self.menu = menu
         self.proteinsEaten = proteinsEaten
         self.caloriesEaten = caloriesEaten
+        self.createdAt = datetime.now().date().isoformat()
 
     def save(self):
         daily_nutrition_menu = {
@@ -15,7 +16,8 @@ class DailyNutritionMenu:
             "user_id": self.user_id,
             "menu": self.menu,
             "proteinsEaten": self.proteinsEaten,
-            "caloriesEaten": self.caloriesEaten
+            "caloriesEaten": self.caloriesEaten,
+            "createdAt": self.createdAt
         }
 
         db.dailyNutritionMenus.insert_one(daily_nutrition_menu)
