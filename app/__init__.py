@@ -5,7 +5,6 @@ from flask_cors import CORS
 from firebase_admin import credentials, initialize_app
 # from .config.firebase_config import FIREBASE_ADMIN_SDK_CREDENTIALS
 from .config.firebase_config_aws import get_secret
-from .config.firebase_config import FIREBASE_ADMIN_SDK_CREDENTIALS
 
 app = Flask(__name__)
 CORS(app)
@@ -14,7 +13,7 @@ app.config.from_pyfile('config.py')
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# FIREBASE_ADMIN_SDK_CREDENTIALS = get_secret()
+FIREBASE_ADMIN_SDK_CREDENTIALS = get_secret()
 cred = credentials.Certificate(FIREBASE_ADMIN_SDK_CREDENTIALS)
 default_app = initialize_app(cred)
 
