@@ -45,7 +45,7 @@ from .scheduler.tasks import create_daily_menus
 scheduler = BackgroundScheduler()
 
 def init_scheduler():
-    scheduler.add_job(create_daily_menus, trigger='cron', hour=0 , minutes=0)
+    scheduler.add_job(create_daily_menus, trigger='cron', hour=0 , minute=0)
     scheduler.start()
     
 init_scheduler()
